@@ -25,7 +25,8 @@
     "postalCode": "Postal code",
     "country": "Country",
     "email": "Email",
-    "phone": "Phone"
+    "phone": "Phone",
+    "userCount": "Number of users"
   },
   "toast": {
     "created": "Company created",
