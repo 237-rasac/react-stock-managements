@@ -31,3 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Environment files (.env.example stays committed as the template)
+.env
+.env.*
+!.env.example
