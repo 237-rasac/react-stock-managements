@@ -63,10 +63,10 @@ export const Sidebar = () => {
         className={cn(
           "fixed inset-y-0 left-0 z-50 flex w-[264px] flex-col bg-primary-950 text-[var(--dark-text-secondary)]",
           "transition-transform duration-300 ease-out",
-          "max-nav:-translate-x-full max-nav:shadow-xl",
-          "nav:translate-x-0",
-          !sidebarOpen &&
-            "max-nav:-translate-x-full max-nav:pointer-events-none",
+          "nav:translate-x-0 max-nav:shadow-xl",
+          sidebarOpen
+            ? "max-nav:translate-x-0"
+            : "max-nav:-translate-x-full max-nav:pointer-events-none",
         )}
       >
         {/* Brand header */}
