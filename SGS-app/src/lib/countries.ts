@@ -101,7 +101,7 @@ export function countryOptions(lang: string): CountryOption[] {
     name: countryName(isoCode, lang),
     dial: dialCode(isoCode),
     flag: flagEmoji(isoCode),
-  })).sort((a, b) => collator.compare(a.name, b.name));
+  })).toSorted((a, b) => collator.compare(a.name, b.name));
 
   optionsCache.set(lang, options);
   return options;

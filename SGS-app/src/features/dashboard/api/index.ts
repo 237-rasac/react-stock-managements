@@ -71,7 +71,7 @@ export function buildStockValueByCategory(
   }
   return [...sums.entries()]
     .map(([name, value]) => ({ name, value }))
-    .sort((a, b) => b.value - a.value);
+    .toSorted((a, b) => b.value - a.value);
 }
 
 export const DashboardApi = {

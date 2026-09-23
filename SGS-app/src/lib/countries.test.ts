@@ -41,7 +41,7 @@ describe("country helpers", () => {
     });
 
     const names = options.map((option) => option.name);
-    expect([...names].sort(new Intl.Collator("fr").compare)).toEqual(names);
+    expect(names.toSorted(new Intl.Collator("fr").compare)).toEqual(names);
   });
 
   it("resolves a dial code back to a country", () => {

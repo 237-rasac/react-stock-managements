@@ -81,7 +81,7 @@ describe("i18n fr/en parity", () => {
     expect(ns.size).toBeGreaterThan(10); // sanity: features actually discovered
 
     const allFindings: string[] = [];
-    for (const [name, { fr, en }] of [...ns.entries()].sort()) {
+    for (const [name, { fr, en }] of [...ns.entries()].toSorted()) {
       if (!fr || !en) {
         allFindings.push(
           `[${name}] missing FILE: ${!fr ? "fr.json" : ""}${!en ? "en.json" : ""}`,
