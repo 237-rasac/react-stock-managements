@@ -1,0 +1,41 @@
+{
+  "title": "Users",
+  "subtitle": "Your company's accounts and their roles",
+  "listTitle": "List",
+  "createTitle": "New user",
+  "editTitle": "Edit user",
+  "detailTitle": "User details",
+  "identityCard": "User information",
+  "backToList": "Back to users",
+  "notFound": "User not found",
+  "notFoundHint": "This user does not exist or has been deleted.",
+  "search": "Search a user…",
+  "filter": "Filter",
+  "actions": "Actions",
+  "confirmDelete": "Delete this user?",
+  "selfDelete": "You cannot delete your own account.",
+  "adminOnly": "Administrators only",
+  "adminOnlyHint": "This section requires the ADMIN role.",
+  "fields": {
+    "login": "Login",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "email": "Email",
+    "phone": "Phone",
+    "role": "Role",
+    "password": "Password",
+    "passwordHint": "At least 6 characters — communicate it to the user"
+  },
+  "role": {
+    "SUPER_ADMIN": "Super administrator",
+    "ADMIN": "Administrator",
+    "GESTIONNAIRE": "Manager",
+    "VENDEUR": "Sales clerk"
+  },
+  "you": "you",
+  "toast": {
+    "created": "User created",
+    "updated": "User updated",
+    "deleted": "User deleted"
+  }
+}

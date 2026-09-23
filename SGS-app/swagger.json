@@ -1,0 +1,3270 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "SGS — API Gestion de Stock",
+    "description": "API REST du système de gestion de stock multi-entreprises SGS",
+    "contact": {
+      "name": "SGS Team",
+      "email": "dev@sgs.local"
+    },
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8081",
+      "description": "Generated server url"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "📦 Commandes fournisseur",
+      "description": "Commandes d'achat, dont la réception génère une entrée de stock"
+    },
+    {
+      "name": "🧑‍💼 Clients",
+      "description": "Gestion des fiches clients"
+    },
+    {
+      "name": "🏷️ Catégories",
+      "description": "Gestion des catégories de produits"
+    },
+    {
+      "name": "💰 Ventes",
+      "description": "Point de vente : décrémente le stock immédiatement à la création"
+    },
+    {
+      "name": "🏢 Entreprises",
+      "description": "Gestion des entreprises clientes (SUPER_ADMIN uniquement)"
+    },
+    {
+      "name": "👥 Utilisateurs",
+      "description": "Gestion des comptes (ADMIN uniquement)"
+    },
+    {
+      "name": "🔐 Authentification",
+      "description": "Connexion, inscription et profil utilisateur"
+    },
+    {
+      "name": "📊 Stock",
+      "description": "Consultation des niveaux de stock (lecture seule)"
+    },
+    {
+      "name": "📦 Articles",
+      "description": "Gestion du catalogue d'articles"
+    },
+    {
+      "name": "🔄 Mouvements de stock",
+      "description": "Historique des entrées/sorties et ajustements manuels"
+    },
+    {
+      "name": "🛒 Commandes client",
+      "description": "Commandes passées par un client, avant transformation en sortie de stock"
+    },
+    {
+      "name": "🛰️ Plateforme",
+      "description": "Backoffice de l'opérateur : stats globales et onboarding des entreprises clientes (SUPER_ADMIN)"
+    },
+    {
+      "name": "🚚 Fournisseurs",
+      "description": "Gestion des fiches fournisseurs"
+    },
+    {
+      "name": "📈 Tableau de bord",
+      "description": "Indicateurs clés agrégés (stock, commandes, ventes)"
+    },
+    {
+      "name": "🔔 Notifications",
+      "description": "Alertes in-app (actuellement : stock sous le seuil minimum)"
+    }
+  ],
+  "paths": {
+    "/api/utilisateurs/{id}": {
+      "get": {
+        "tags": ["👥 Utilisateurs"],
+        "summary": "🔍 Détail d'un utilisateur",
+        "operationId": "findById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/UtilisateurResponseDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": ["👥 Utilisateurs"],
+        "summary": "✏️ Modifier un utilisateur",
+        "description": "Nom, prénom, contact et rôle. Ni login ni mot de passe (endpoints séparés).",
+        "operationId": "update",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UtilisateurUpdateDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/UtilisateurResponseDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": ["👥 Utilisateurs"],
+        "summary": "🗑️ Supprimer un utilisateur",
+        "operationId": "delete",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/fournisseurs/{id}": {
+      "get": {
+        "tags": ["🚚 Fournisseurs"],
+        "summary": "🔍 Détail d'un fournisseur",
+        "operationId": "findById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID du fournisseur",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/FournisseurResponseDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": ["🚚 Fournisseurs"],
+        "summary": "✏️ Modifier un fournisseur",
+        "operationId": "update_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID du fournisseur",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FournisseurRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/FournisseurResponseDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": ["🚚 Fournisseurs"],
+        "summary": "🗑️ Supprimer un fournisseur",
+        "operationId": "delete_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID du fournisseur",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "✅ Fournisseur supprimé"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/entreprises/{id}": {
+      "get": {
+        "tags": ["🏢 Entreprises"],
+        "summary": "🔍 Détail d'une entreprise cliente",
+        "operationId": "findById_2",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID de l'entreprise",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntrepriseResponseDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": ["🏢 Entreprises"],
+        "summary": "✏️ Modifier une entreprise cliente",
+        "description": "Coordonnées uniquement : le nom (identifiant de cloisonnement) n'est pas modifiable.",
+        "operationId": "update_2",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID de l'entreprise",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EntrepriseUpdateDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntrepriseResponseDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": ["🏢 Entreprises"],
+        "summary": "🗑️ Supprimer une entreprise cliente",
+        "operationId": "delete_2",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID de l'entreprise",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "✅ Entreprise supprimée"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/commandes-fournisseur/{id}/receptionner": {
+      "put": {
+        "tags": ["📦 Commandes fournisseur"],
+        "summary": "📥 Réceptionner la commande",
+        "description": "Génère une entrée de stock par ligne. Refusé si déjà reçue.",
+        "operationId": "receptionner",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID de la commande",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommandeFournisseurResponseDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/commandes-fournisseur/{id}/receptionner-partiel": {
+      "put": {
+        "tags": ["📦 Commandes fournisseur"],
+        "summary": "📥 Réceptionner partiellement la commande",
+        "description": "Enregistre les quantités effectivement reçues, ligne par ligne (§3.5). Les lignes absentes de la requête ne reçoivent rien ; on ne peut pas recevoir plus que le solde restant. Passe automatiquement à RECUE quand toutes les lignes sont satisfaites.",
+        "operationId": "receptionnerPartiellement",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID de la commande",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReceptionPartielleDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommandeFournisseurResponseDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/commandes-fournisseur/{id}/annuler": {
+      "put": {
+        "tags": ["📦 Commandes fournisseur"],
+        "summary": "🚫 Annuler la commande",
+        "description": "Possible uniquement tant que la commande est EN_ATTENTE (pas RECUE_PARTIELLEMENT : le stock a déjà bougé).",
+        "operationId": "annuler",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID de la commande",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommandeFournisseurResponseDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/commandes-client/{id}/valider": {
+      "put": {
+        "tags": ["🛒 Commandes client"],
+        "summary": "✅ Valider la commande",
+        "description": "Génère une sortie de stock par ligne. Refusé si le stock est insuffisant (409).",
+        "operationId": "valider",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID de la commande",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommandeClientResponseDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/commandes-client/{id}/livrer": {
+      "put": {
+        "tags": ["🛒 Commandes client"],
+        "summary": "📦 Marquer la commande comme livrée",
+        "description": "EXPEDIEE -\u003E LIVREE (raccourci toléré depuis VALIDEE). Aucun impact stock.",
+        "operationId": "livrer",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID de la commande",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommandeClientResponseDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/commandes-client/{id}/expedier": {
+      "put": {
+        "tags": ["🛒 Commandes client"],
+        "summary": "🚚 Marquer la commande comme expédiée",
+        "description": "VALIDEE -\u003E EXPEDIEE. Aucun impact stock : les sorties ont été générées à la validation.",
+        "operationId": "expedier",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID de la commande",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommandeClientResponseDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/commandes-client/{id}/annuler": {
+      "put": {
+        "tags": ["🛒 Commandes client"],
+        "summary": "🚫 Annuler la commande",
+        "description": "Possible uniquement tant que la commande est EN_COURS.",
+        "operationId": "annuler_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID de la commande",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommandeClientResponseDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/clients/{id}": {
+      "get": {
+        "tags": ["🧑‍💼 Clients"],
+        "summary": "🔍 Détail d'un client",
+        "operationId": "findById_3",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID du client",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientResponseDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": ["🧑‍💼 Clients"],
+        "summary": "✏️ Modifier un client",
+        "operationId": "update_3",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID du client",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClientRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientResponseDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": ["🧑‍💼 Clients"],
+        "summary": "🗑️ Supprimer un client",
+        "operationId": "delete_3",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID du client",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "✅ Client supprimé"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/categories/{id}": {
+      "get": {
+        "tags": ["🏷️ Catégories"],
+        "summary": "🔍 Détail d'une catégorie",
+        "operationId": "findById_4",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID de la catégorie",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategorieResponseDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": ["🏷️ Catégories"],
+        "summary": "✏️ Modifier une catégorie",
+        "operationId": "update_4",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID de la catégorie",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CategorieRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategorieResponseDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": ["🏷️ Catégories"],
+        "summary": "🗑️ Supprimer une catégorie",
+        "operationId": "delete_4",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID de la catégorie",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "✅ Catégorie supprimée"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/articles/{id}": {
+      "get": {
+        "tags": ["📦 Articles"],
+        "summary": "🔍 Détail d'un article",
+        "description": "Retourne un article par son ID.",
+        "operationId": "findById_5",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID de l'article",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArticleResponseDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": ["📦 Articles"],
+        "summary": "✏️ Modifier un article",
+        "description": "Met à jour les informations d'un article existant.",
+        "operationId": "update_5",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID de l'article",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ArticleRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArticleResponseDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": ["📦 Articles"],
+        "summary": "🗑️ Supprimer un article",
+        "description": "Supprime un article du catalogue.",
+        "operationId": "delete_5",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID de l'article",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "✅ Article supprimé"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/ventes": {
+      "get": {
+        "tags": ["💰 Ventes"],
+        "summary": "📋 Lister les ventes",
+        "operationId": "findAll",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/VenteResponseDTO"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": ["💰 Ventes"],
+        "summary": "➕ Encaisser une vente",
+        "description": "Vente + lignes en une seule requête. Décrémente le stock immédiatement. Refusée en bloc (409) si le stock est insuffisant pour au moins une ligne.",
+        "operationId": "create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VenteRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/VenteResponseDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/plateforme/entreprises": {
+      "post": {
+        "tags": ["🛰️ Plateforme"],
+        "summary": "🚀 Onboarder une entreprise cliente",
+        "description": "Crée l'entreprise et son premier compte ADMIN en une seule transaction.",
+        "operationId": "onboarder",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdminEntrepriseRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntrepriseResponseDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/mouvements-stock": {
+      "get": {
+        "tags": ["🔄 Mouvements de stock"],
+        "summary": "📋 Historique des mouvements",
+        "description": "Filtrable par article et/ou par type.",
+        "operationId": "findAll_1",
+        "parameters": [
+          {
+            "name": "articleId",
+            "in": "query",
+            "description": "Filtrer par article",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "Filtrer par type (ENTREE/SORTIE/AJUSTEMENT)",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["ENTREE", "SORTIE", "AJUSTEMENT"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MvtStkResponseDTO"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": ["🔄 Mouvements de stock"],
+        "summary": "➕ Ajustement manuel de stock",
+        "description": "Correction d'inventaire avec motif obligatoire. Quantité signée (+/-).",
+        "operationId": "creerAjustement",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MvtStkRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MvtStkResponseDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/fournisseurs": {
+      "get": {
+        "tags": ["🚚 Fournisseurs"],
+        "summary": "📋 Lister tous les fournisseurs",
+        "operationId": "findAll_2",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FournisseurResponseDTO"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": ["🚚 Fournisseurs"],
+        "summary": "➕ Créer un fournisseur",
+        "operationId": "create_1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FournisseurRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/FournisseurResponseDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/entreprises": {
+      "get": {
+        "tags": ["🏢 Entreprises"],
+        "summary": "📋 Lister toutes les entreprises clientes",
+        "operationId": "findAll_3",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EntrepriseResponseDTO"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": ["🏢 Entreprises"],
+        "summary": "➕ Créer une entreprise cliente",
+        "description": "Réservé au SUPER_ADMIN (plateforme).",
+        "operationId": "create_2",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EntrepriseRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntrepriseResponseDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/commandes-fournisseur": {
+      "get": {
+        "tags": ["📦 Commandes fournisseur"],
+        "summary": "📋 Lister les commandes fournisseur",
+        "operationId": "findAll_4",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CommandeFournisseurResponseDTO"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": ["📦 Commandes fournisseur"],
+        "summary": "➕ Créer une commande fournisseur",
+        "description": "Commande + lignes en une seule requête, statut initial EN_ATTENTE.",
+        "operationId": "create_3",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommandeFournisseurRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommandeFournisseurResponseDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/commandes-client": {
+      "get": {
+        "tags": ["🛒 Commandes client"],
+        "summary": "📋 Lister les commandes client",
+        "operationId": "findAll_5",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CommandeClientResponseDTO"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": ["🛒 Commandes client"],
+        "summary": "➕ Créer une commande client",
+        "description": "Commande + lignes en une seule requête, statut initial EN_COURS.",
+        "operationId": "create_4",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommandeClientRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommandeClientResponseDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/clients": {
+      "get": {
+        "tags": ["🧑‍💼 Clients"],
+        "summary": "📋 Lister tous les clients",
+        "operationId": "findAll_6",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ClientResponseDTO"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": ["🧑‍💼 Clients"],
+        "summary": "➕ Créer un client",
+        "operationId": "create_5",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClientRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientResponseDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/categories": {
+      "get": {
+        "tags": ["🏷️ Catégories"],
+        "summary": "📋 Lister toutes les catégories",
+        "operationId": "findAll_7",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CategorieResponseDTO"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": ["🏷️ Catégories"],
+        "summary": "➕ Créer une catégorie",
+        "operationId": "create_6",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CategorieRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategorieResponseDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/auth/register": {
+      "post": {
+        "tags": ["🔐 Authentification"],
+        "summary": "👤 Inscription (Admin uniquement)",
+        "description": "Crée un nouvel utilisateur. Réservé aux administrateurs.",
+        "operationId": "register",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "✅ Utilisateur créé",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthTokensDTO"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "❌ Accès refusé (non admin)",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthTokensDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/auth/refresh": {
+      "post": {
+        "tags": ["🔐 Authentification"],
+        "summary": "🔄 Renouveler la session",
+        "description": "Échange un refresh token valide contre un nouveau couple JWT + refresh token (rotation : l'ancien refresh token devient inutilisable).",
+        "operationId": "refresh",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthTokensRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "✅ Nouveau couple de tokens retourné",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthTokensDTO"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "❌ Refresh token inconnu, expiré ou déjà utilisé",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthTokensDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/logout": {
+      "post": {
+        "tags": ["🔐 Authentification"],
+        "summary": "🚪 Déconnexion",
+        "description": "Révoque le refresh token fourni. Idempotent.",
+        "operationId": "logout",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthTokensRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "✅ Refresh token révoqué (ou déjà inconnu)"
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "tags": ["🔐 Authentification"],
+        "summary": "🔑 Connexion",
+        "description": "Authentifie un utilisateur avec son login et mot de passe. Retourne un token JWT à utiliser dans le header Authorization pour les requêtes suivantes.",
+        "operationId": "login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "✅ Connexion réussie — token JWT retourné",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthTokensDTO"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "❌ Identifiants incorrects",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthTokensDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/articles": {
+      "get": {
+        "tags": ["📦 Articles"],
+        "summary": "📋 Lister tous les articles",
+        "description": "Retourne la liste complète des articles.",
+        "operationId": "findAll_8",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ArticleResponseDTO"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": ["📦 Articles"],
+        "summary": "➕ Créer un article",
+        "description": "Ajoute un nouvel article au catalogue.",
+        "operationId": "create_7",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ArticleRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArticleResponseDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/ventes/{id}": {
+      "get": {
+        "tags": ["💰 Ventes"],
+        "summary": "🔍 Détail d'une vente",
+        "operationId": "findById_6",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/VenteResponseDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/utilisateurs": {
+      "get": {
+        "tags": ["👥 Utilisateurs"],
+        "summary": "📋 Lister les utilisateurs de mon entreprise",
+        "operationId": "findAll_9",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UtilisateurResponseDTO"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/stock/valorisation": {
+      "get": {
+        "tags": ["📊 Stock"],
+        "summary": "💰 Valorisation du stock",
+        "description": "Valeur totale du stock (prix HT × quantité, tous articles confondus).",
+        "operationId": "valorisation",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValorisationResponseDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/stock/etat": {
+      "get": {
+        "tags": ["📊 Stock"],
+        "summary": "📋 État du stock",
+        "description": "Stock actuel et seuil de chaque article.",
+        "operationId": "etat",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ArticleStockDTO"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/stock/alertes": {
+      "get": {
+        "tags": ["📊 Stock"],
+        "summary": "🔔 Articles en alerte",
+        "description": "Articles dont le stock est descendu au niveau du seuil minimum ou en dessous.",
+        "operationId": "alertes",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ArticleStockDTO"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/plateforme/stats": {
+      "get": {
+        "tags": ["🛰️ Plateforme"],
+        "summary": "📊 Statistiques globales de la plateforme",
+        "operationId": "stats",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlateformeStatsDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/notifications": {
+      "get": {
+        "tags": ["🔔 Notifications"],
+        "summary": "📋 Notifications actives",
+        "operationId": "findAll_10",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/NotificationDTO"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/dashboard/kpis": {
+      "get": {
+        "tags": ["📈 Tableau de bord"],
+        "summary": "📊 KPIs du tableau de bord",
+        "description": "Valeur du stock, alertes, commandes en cours, chiffre d'affaires du mois.",
+        "operationId": "kpis",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/DashboardKpisDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/dashboard/graphiques": {
+      "get": {
+        "tags": ["📈 Tableau de bord"],
+        "summary": "📈 Données des graphiques",
+        "description": "Évolution des entrées/sorties de stock sur 30 jours et top 5 des articles les plus vendus.",
+        "operationId": "graphiques",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GraphiquesResponseDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/commandes-fournisseur/{id}": {
+      "get": {
+        "tags": ["📦 Commandes fournisseur"],
+        "summary": "🔍 Détail d'une commande fournisseur",
+        "operationId": "findById_7",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommandeFournisseurResponseDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/commandes-client/{id}": {
+      "get": {
+        "tags": ["🛒 Commandes client"],
+        "summary": "🔍 Détail d'une commande client",
+        "operationId": "findById_8",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommandeClientResponseDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/auth/me": {
+      "get": {
+        "tags": ["🔐 Authentification"],
+        "summary": "👤 Mon profil",
+        "description": "Retourne les informations de l'utilisateur connecté (déduit du token JWT).",
+        "operationId": "me",
+        "responses": {
+          "200": {
+            "description": "✅ Profil retourné",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrentUserResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "❌ Non authentifié",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrentUserResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "UtilisateurUpdateDTO": {
+        "type": "object",
+        "properties": {
+          "nom": {
+            "type": "string"
+          },
+          "prenom": {
+            "type": "string"
+          },
+          "mail": {
+            "type": "string"
+          },
+          "numTel": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": ["SUPER_ADMIN", "ADMIN", "GESTIONNAIRE", "VENDEUR"]
+          }
+        },
+        "required": ["nom", "prenom", "role"]
+      },
+      "UtilisateurResponseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "nom": {
+            "type": "string"
+          },
+          "prenom": {
+            "type": "string"
+          },
+          "login": {
+            "type": "string"
+          },
+          "mail": {
+            "type": "string"
+          },
+          "numTel": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": ["SUPER_ADMIN", "ADMIN", "GESTIONNAIRE", "VENDEUR"]
+          }
+        }
+      },
+      "FournisseurRequestDTO": {
+        "type": "object",
+        "description": "Données du fournisseur",
+        "properties": {
+          "nom": {
+            "type": "string"
+          },
+          "adresse1": {
+            "type": "string"
+          },
+          "adresse2": {
+            "type": "string"
+          },
+          "ville": {
+            "type": "string"
+          },
+          "codePostal": {
+            "type": "string"
+          },
+          "pays": {
+            "type": "string"
+          },
+          "mail": {
+            "type": "string"
+          },
+          "numTel": {
+            "type": "string"
+          }
+        },
+        "required": ["nom"]
+      },
+      "FournisseurResponseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "nom": {
+            "type": "string"
+          },
+          "adresse1": {
+            "type": "string"
+          },
+          "adresse2": {
+            "type": "string"
+          },
+          "ville": {
+            "type": "string"
+          },
+          "codePostal": {
+            "type": "string"
+          },
+          "pays": {
+            "type": "string"
+          },
+          "mail": {
+            "type": "string"
+          },
+          "numTel": {
+            "type": "string"
+          }
+        }
+      },
+      "EntrepriseUpdateDTO": {
+        "type": "object",
+        "description": "Nouvelles coordonnées",
+        "properties": {
+          "adresse1": {
+            "type": "string"
+          },
+          "adresse2": {
+            "type": "string"
+          },
+          "ville": {
+            "type": "string"
+          },
+          "codePostal": {
+            "type": "string"
+          },
+          "pays": {
+            "type": "string"
+          },
+          "mail": {
+            "type": "string"
+          },
+          "numTel": {
+            "type": "string"
+          }
+        }
+      },
+      "EntrepriseResponseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "nom": {
+            "type": "string"
+          },
+          "adresse1": {
+            "type": "string"
+          },
+          "adresse2": {
+            "type": "string"
+          },
+          "ville": {
+            "type": "string"
+          },
+          "codePostal": {
+            "type": "string"
+          },
+          "pays": {
+            "type": "string"
+          },
+          "mail": {
+            "type": "string"
+          },
+          "numTel": {
+            "type": "string"
+          },
+          "nbUtilisateurs": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "CommandeFournisseurResponseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "code": {
+            "type": "string"
+          },
+          "dateCommande": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "statut": {
+            "type": "string",
+            "enum": ["EN_ATTENTE", "RECUE_PARTIELLEMENT", "RECUE", "ANNULEE"]
+          },
+          "fournisseurId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "fournisseurNom": {
+            "type": "string"
+          },
+          "lignes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LigneCommandeFournisseurResponseDTO"
+            }
+          },
+          "total": {
+            "type": "number"
+          }
+        }
+      },
+      "LigneCommandeFournisseurResponseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "articleId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "articleDesignation": {
+            "type": "string"
+          },
+          "quantite": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "quantiteRecue": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "prixUnitaire": {
+            "type": "number"
+          },
+          "sousTotal": {
+            "type": "number"
+          }
+        }
+      },
+      "LigneRecueDTO": {
+        "type": "object",
+        "properties": {
+          "ligneId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "quantiteRecue": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          }
+        },
+        "required": ["ligneId"]
+      },
+      "ReceptionPartielleDTO": {
+        "type": "object",
+        "properties": {
+          "lignes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LigneRecueDTO"
+            }
+          }
+        },
+        "required": ["lignes"]
+      },
+      "CommandeClientResponseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "code": {
+            "type": "string"
+          },
+          "dateCommande": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "statut": {
+            "type": "string",
+            "enum": ["EN_COURS", "VALIDEE", "EXPEDIEE", "LIVREE", "ANNULEE"]
+          },
+          "clientId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "clientNom": {
+            "type": "string"
+          },
+          "lignes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LigneCommandeResponseDTO"
+            }
+          },
+          "total": {
+            "type": "number"
+          }
+        }
+      },
+      "LigneCommandeResponseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "articleId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "articleDesignation": {
+            "type": "string"
+          },
+          "quantite": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "prixUnitaire": {
+            "type": "number"
+          },
+          "sousTotal": {
+            "type": "number"
+          }
+        }
+      },
+      "ClientRequestDTO": {
+        "type": "object",
+        "description": "Données du client",
+        "properties": {
+          "nom": {
+            "type": "string"
+          },
+          "prenom": {
+            "type": "string"
+          },
+          "adresse1": {
+            "type": "string"
+          },
+          "adresse2": {
+            "type": "string"
+          },
+          "ville": {
+            "type": "string"
+          },
+          "codePostal": {
+            "type": "string"
+          },
+          "pays": {
+            "type": "string"
+          },
+          "mail": {
+            "type": "string"
+          },
+          "numTel": {
+            "type": "string"
+          },
+          "photo": {
+            "type": "string"
+          }
+        },
+        "required": ["nom", "prenom"]
+      },
+      "ClientResponseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "nom": {
+            "type": "string"
+          },
+          "prenom": {
+            "type": "string"
+          },
+          "adresse1": {
+            "type": "string"
+          },
+          "adresse2": {
+            "type": "string"
+          },
+          "ville": {
+            "type": "string"
+          },
+          "codePostal": {
+            "type": "string"
+          },
+          "pays": {
+            "type": "string"
+          },
+          "mail": {
+            "type": "string"
+          },
+          "numTel": {
+            "type": "string"
+          },
+          "photo": {
+            "type": "string"
+          }
+        }
+      },
+      "CategorieRequestDTO": {
+        "type": "object",
+        "description": "Données de la catégorie",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "designation": {
+            "type": "string"
+          }
+        },
+        "required": ["code", "designation"]
+      },
+      "CategorieResponseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "code": {
+            "type": "string"
+          },
+          "designation": {
+            "type": "string"
+          }
+        }
+      },
+      "ArticleRequestDTO": {
+        "type": "object",
+        "description": "Données de l'article",
+        "properties": {
+          "codeArticle": {
+            "type": "string"
+          },
+          "designation": {
+            "type": "string"
+          },
+          "prixUnitaireHt": {
+            "type": "number"
+          },
+          "tauxTva": {
+            "type": "number"
+          },
+          "photo": {
+            "type": "string"
+          },
+          "seuilMin": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "categorieId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "required": [
+          "categorieId",
+          "codeArticle",
+          "designation",
+          "prixUnitaireHt",
+          "tauxTva"
+        ]
+      },
+      "ArticleResponseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "codeArticle": {
+            "type": "string"
+          },
+          "designation": {
+            "type": "string"
+          },
+          "prixUnitaireHt": {
+            "type": "number"
+          },
+          "tauxTva": {
+            "type": "number"
+          },
+          "prixUnitaireTtc": {
+            "type": "number"
+          },
+          "photo": {
+            "type": "string"
+          },
+          "stockActuel": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "seuilMin": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "categorie": {
+            "$ref": "#/components/schemas/CategorieSummaryDTO"
+          }
+        }
+      },
+      "CategorieSummaryDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "designation": {
+            "type": "string"
+          }
+        }
+      },
+      "LigneVenteRequestDTO": {
+        "type": "object",
+        "properties": {
+          "articleId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "quantite": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": ["articleId", "quantite"]
+      },
+      "VenteRequestDTO": {
+        "type": "object",
+        "properties": {
+          "clientId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "lignes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LigneVenteRequestDTO"
+            }
+          }
+        },
+        "required": ["lignes"]
+      },
+      "LigneVenteResponseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "articleId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "articleDesignation": {
+            "type": "string"
+          },
+          "quantite": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "prixUnitaire": {
+            "type": "number"
+          },
+          "sousTotal": {
+            "type": "number"
+          }
+        }
+      },
+      "VenteResponseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "code": {
+            "type": "string"
+          },
+          "dateVente": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "clientId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "clientNom": {
+            "type": "string"
+          },
+          "lignes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LigneVenteResponseDTO"
+            }
+          },
+          "total": {
+            "type": "number"
+          }
+        }
+      },
+      "AdminEntrepriseRequestDTO": {
+        "type": "object",
+        "properties": {
+          "nomEntreprise": {
+            "type": "string"
+          },
+          "adresse1": {
+            "type": "string"
+          },
+          "adresse2": {
+            "type": "string"
+          },
+          "ville": {
+            "type": "string"
+          },
+          "codePostal": {
+            "type": "string"
+          },
+          "pays": {
+            "type": "string"
+          },
+          "mailEntreprise": {
+            "type": "string"
+          },
+          "numTelEntreprise": {
+            "type": "string"
+          },
+          "adminPrenom": {
+            "type": "string"
+          },
+          "adminNom": {
+            "type": "string"
+          },
+          "adminLogin": {
+            "type": "string"
+          },
+          "adminMotDePasse": {
+            "type": "string"
+          },
+          "adminMail": {
+            "type": "string"
+          },
+          "adminNumTel": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "adminLogin",
+          "adminMotDePasse",
+          "adminNom",
+          "adminPrenom",
+          "nomEntreprise"
+        ]
+      },
+      "MvtStkRequestDTO": {
+        "type": "object",
+        "properties": {
+          "articleId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "quantite": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "motif": {
+            "type": "string"
+          }
+        },
+        "required": ["articleId", "motif", "quantite"]
+      },
+      "MvtStkResponseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["ENTREE", "SORTIE", "AJUSTEMENT"]
+          },
+          "quantite": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dateMouvement": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "motif": {
+            "type": "string"
+          },
+          "origine": {
+            "type": "string"
+          },
+          "articleId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "articleDesignation": {
+            "type": "string"
+          },
+          "stockActuelApres": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "EntrepriseRequestDTO": {
+        "type": "object",
+        "description": "Données de l'entreprise",
+        "properties": {
+          "nom": {
+            "type": "string"
+          },
+          "adresse1": {
+            "type": "string"
+          },
+          "adresse2": {
+            "type": "string"
+          },
+          "ville": {
+            "type": "string"
+          },
+          "codePostal": {
+            "type": "string"
+          },
+          "pays": {
+            "type": "string"
+          },
+          "mail": {
+            "type": "string"
+          },
+          "numTel": {
+            "type": "string"
+          }
+        },
+        "required": ["nom"]
+      },
+      "CommandeFournisseurRequestDTO": {
+        "type": "object",
+        "properties": {
+          "fournisseurId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "lignes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LigneCommandeFournisseurRequestDTO"
+            }
+          }
+        },
+        "required": ["fournisseurId", "lignes"]
+      },
+      "LigneCommandeFournisseurRequestDTO": {
+        "type": "object",
+        "properties": {
+          "articleId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "quantite": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": ["articleId", "quantite"]
+      },
+      "CommandeClientRequestDTO": {
+        "type": "object",
+        "properties": {
+          "clientId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "lignes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LigneCommandeRequestDTO"
+            }
+          }
+        },
+        "required": ["clientId", "lignes"]
+      },
+      "LigneCommandeRequestDTO": {
+        "type": "object",
+        "properties": {
+          "articleId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "quantite": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": ["articleId", "quantite"]
+      },
+      "RegisterRequest": {
+        "type": "object",
+        "description": "Données du nouvel utilisateur",
+        "properties": {
+          "nom": {
+            "type": "string"
+          },
+          "prenom": {
+            "type": "string"
+          },
+          "login": {
+            "type": "string"
+          },
+          "motDePasse": {
+            "type": "string"
+          },
+          "mail": {
+            "type": "string"
+          },
+          "numTel": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": ["SUPER_ADMIN", "ADMIN", "GESTIONNAIRE", "VENDEUR"]
+          },
+          "entrepriseId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "required": [
+          "entrepriseId",
+          "login",
+          "motDePasse",
+          "nom",
+          "prenom",
+          "role"
+        ]
+      },
+      "AuthTokensDTO": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string"
+          },
+          "refreshToken": {
+            "type": "string"
+          },
+          "user": {
+            "$ref": "#/components/schemas/UserInfo"
+          }
+        }
+      },
+      "UserInfo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "nom": {
+            "type": "string"
+          },
+          "prenom": {
+            "type": "string"
+          },
+          "login": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": ["SUPER_ADMIN", "ADMIN", "GESTIONNAIRE", "VENDEUR"]
+          },
+          "entrepriseId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "entrepriseNom": {
+            "type": "string"
+          }
+        }
+      },
+      "AuthTokensRequest": {
+        "type": "object",
+        "description": "Refresh token à révoquer",
+        "properties": {
+          "refreshToken": {
+            "type": "string"
+          }
+        },
+        "required": ["refreshToken"]
+      },
+      "LoginRequest": {
+        "type": "object",
+        "description": "Identifiants de connexion",
+        "properties": {
+          "login": {
+            "type": "string"
+          },
+          "motDePasse": {
+            "type": "string"
+          }
+        },
+        "required": ["login", "motDePasse"]
+      },
+      "ValorisationResponseDTO": {
+        "type": "object",
+        "properties": {
+          "valeurTotale": {
+            "type": "number"
+          }
+        }
+      },
+      "ArticleStockDTO": {
+        "type": "object",
+        "properties": {
+          "articleId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "codeArticle": {
+            "type": "string"
+          },
+          "designation": {
+            "type": "string"
+          },
+          "stockActuel": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "seuilMin": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "EntrepriseRecenteDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "nom": {
+            "type": "string"
+          },
+          "mail": {
+            "type": "string"
+          },
+          "ville": {
+            "type": "string"
+          },
+          "nbUtilisateurs": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "PlateformeStatsDTO": {
+        "type": "object",
+        "properties": {
+          "nbEntreprises": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "nbUtilisateurs": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "nbAdmins": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "nbClients": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "nbArticles": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "nbVentes": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "nbVentesDuMois": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "chiffreAffairesDuMois": {
+            "type": "number"
+          },
+          "nbArticlesEnAlerte": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "nbCommandesEnCours": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "nbNouvellesEntreprisesDuMois": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "dernieresEntreprises": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EntrepriseRecenteDTO"
+            }
+          }
+        }
+      },
+      "NotificationDTO": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "articleId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "articleDesignation": {
+            "type": "string"
+          }
+        }
+      },
+      "DashboardKpisDTO": {
+        "type": "object",
+        "properties": {
+          "valeurStock": {
+            "type": "number"
+          },
+          "nbArticlesEnAlerte": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nbCommandesClientEnCours": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "nbCommandesFournisseurEnAttente": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "nbVentesDuMois": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "chiffreAffairesDuMois": {
+            "type": "number"
+          }
+        }
+      },
+      "EntreeSortieJourDTO": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "entrees": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "sorties": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "GraphiquesResponseDTO": {
+        "type": "object",
+        "properties": {
+          "evolutionStock": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EntreeSortieJourDTO"
+            }
+          },
+          "topArticles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TopArticleDTO"
+            }
+          }
+        }
+      },
+      "TopArticleDTO": {
+        "type": "object",
+        "properties": {
+          "articleId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "designation": {
+            "type": "string"
+          },
+          "codeArticle": {
+            "type": "string"
+          },
+          "quantiteVendue": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "chiffreAffaires": {
+            "type": "number"
+          }
+        }
+      },
+      "CurrentUserResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "nom": {
+            "type": "string"
+          },
+          "prenom": {
+            "type": "string"
+          },
+          "login": {
+            "type": "string"
+          },
+          "mail": {
+            "type": "string"
+          },
+          "numTel": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": ["SUPER_ADMIN", "ADMIN", "GESTIONNAIRE", "VENDEUR"]
+          },
+          "entrepriseId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "entrepriseNom": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "description": "Colle ton JWT ici après t'être connecté via POST /api/auth/login. Format : colle directement le token (sans le préfixe 'Bearer ').",
+        "name": "bearerAuth",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

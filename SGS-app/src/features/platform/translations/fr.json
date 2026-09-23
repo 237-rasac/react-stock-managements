@@ -1,0 +1,89 @@
+{
+  "eyebrow": "Plateforme",
+  "title": "Vue d'ensemble",
+  "subtitle": "État du parc : entreprises clientes hébergées, comptes actifs et activité générée, toutes sociétés confondues.",
+  "actions": "Actions",
+  "kpi": {
+    "companies": "Entreprises clientes",
+    "users": "Comptes utilisateurs (dont {{count}} admins)",
+    "customers": "Clients finaux",
+    "articles": "Articles gérés",
+    "revenue": "CA du mois, toutes entreprises",
+    "sales": "Ventes du mois ({{total}} au total)",
+    "orders": "Commandes clients en cours"
+  },
+  "recent": {
+    "title": "Récemment onboardées",
+    "empty": "Aucune entreprise pour le moment. Commencez par en onboarder une.",
+    "accounts": "{{count}} compte(s)"
+  },
+  "health": {
+    "title": "Santé du parc",
+    "hint": "Depuis cette console, vous onboardez les entreprises clientes : fiche entreprise + premier compte Administrateur, avec un espace totalement isolé (catalogue, stock, ventes) pour chacune.",
+    "newThisMonth": "Entreprises ajoutées ce mois",
+    "admins": "Comptes administrateurs",
+    "revenue": "Chiffre d'affaires du mois",
+    "alerts": "Articles en alerte de stock",
+    "alertsHint": "{{count}} article(s) sous leur seuil minimum, toutes entreprises confondues."
+  },
+  "companies": {
+    "title": "Entreprises clientes",
+    "subtitle": "Les sociétés hébergées sur la plateforme. Chacune dispose d'un espace isolé et de ses propres comptes.",
+    "searchPlaceholder": "Rechercher une entreprise"
+  },
+  "onboard": {
+    "cta": "Onboarder une entreprise",
+    "title": "Onboarder une entreprise cliente",
+    "description": "L'entreprise et son premier compte Administrateur sont créés en une seule opération.",
+    "submit": "Créer l'entreprise",
+    "companyStep": "Entreprise",
+    "adminStep": "Compte admin",
+    "next": "Continuer",
+    "previous": "Précédent",
+    "cancel": "Annuler",
+    "stepsLabel": "Étapes de création",
+    "step": "Étape {{number}}",
+    "companySection": "Entreprise",
+    "companyHint": "Identité et coordonnées de la société cliente.",
+    "adminSection": "Compte Administrateur",
+    "adminHint": "Ce compte pourra se connecter immédiatement et gérer l'espace de l'entreprise.",
+    "countryHint": "Détermine l'indicatif téléphonique utilisé par les numéros saisis.",
+    "loginHint": "Identifiant utilisé pour se connecter.",
+    "requiredHint": "Les champs marqués d'une astérisque (*) sont obligatoires. Tous les autres peuvent être complétés plus tard."
+  },
+  "edit": {
+    "title": "Modifier les coordonnées",
+    "description": "Le nom de l'entreprise identifie son espace et n'est pas modifiable."
+  },
+  "delete": {
+    "confirm": "Supprimer l'entreprise"
+  },
+  "restricted": {
+    "title": "Accès réservé à la plateforme",
+    "hint": "Cette section nécessite le rôle SUPER_ADMIN."
+  },
+  "toast": {
+    "onboarded": "Entreprise « {{name}} » créée avec son administrateur"
+  },
+  "fields": {
+    "companyName": "Nom de l'entreprise",
+    "addressLine1": "Adresse (ligne 1)",
+    "addressLine2": "Adresse (ligne 2)",
+    "postalCode": "Code postal",
+    "country": "Pays",
+    "city": "Ville",
+    "companyEmail": "Email de l'entreprise",
+    "companyPhone": "Téléphone de l'entreprise",
+    "userCount": "Nombre d’utilisateurs",
+    "adminFirstName": "Prénom",
+    "adminLastName": "Nom",
+    "adminLogin": "Identifiant de connexion",
+    "adminPassword": "Mot de passe",
+    "adminEmail": "Email de l'administrateur",
+    "adminPhone": "Téléphone de l'administrateur"
+  },
+  "error": {
+    "message": "Impossible de charger les statistiques de la plateforme.",
+    "retry": "Réessayer"
+  }
+}

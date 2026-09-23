@@ -1,0 +1,34 @@
+{
+  "title": "Customers",
+  "subtitle": "The company's retail customers",
+  "listTitle": "List",
+  "createTitle": "New customer",
+  "editTitle": "Edit customer",
+  "search": "Search a customer…",
+  "actions": "Actions",
+  "confirmDelete": "Delete this customer?",
+  "backToList": "Back to customers",
+  "notFound": "Customer not found",
+  "notFoundHint": "This customer does not exist or has been deleted.",
+  "identityCard": "Customer card",
+  "addressCard": "Address",
+  "fields": {
+    "firstName": "First name",
+    "lastName": "Last name",
+    "fullName": "Full name",
+    "addressLine1": "Address (line 1)",
+    "addressLine2": "Address (line 2)",
+    "city": "City",
+    "postalCode": "Postal code",
+    "country": "Country",
+    "email": "Email",
+    "phone": "Phone",
+    "photo": "Photo"
+  },
+  "toast": {
+    "created": "Customer created",
+    "updated": "Customer updated",
+    "deleted": "Customer deleted"
+  },
+  "detailTitle": "Customer details"
+}

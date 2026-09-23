@@ -1,0 +1,35 @@
+{
+  "title": "Ventes",
+  "subtitle": "Historique des ventes enregistrées",
+  "posTitle": "Point de vente",
+  "detailTitle": "Détail de la vente",
+  "search": "Rechercher une vente…",
+  "actions": "Actions",
+  "backToList": "Retour aux ventes",
+  "notFound": "Vente introuvable",
+  "notFoundHint": "Cette vente n'existe pas ou a été supprimée.",
+  "anonymous": "Client de passage",
+  "fields": {
+    "code": "N° vente",
+    "date": "Date",
+    "customer": "Client",
+    "total": "Total",
+    "article": "Article",
+    "quantity": "Qté",
+    "unitPrice": "Prix unitaire",
+    "subTotal": "Sous-total",
+    "stock": "Stock dispo."
+  },
+  "cart": "Panier",
+  "cartEmpty": "Le panier est vide — ajoutez des articles pour encaisser.",
+  "addLine": "Ajouter un article",
+  "checkout": "Encaisser",
+  "checkoutHint": "Le stock est décrémenté immédiatement après l'encaissement.",
+  "linesCard": "Articles vendus",
+  "linesCount_one": "{{count}} article",
+  "linesCount_other": "{{count}} articles",
+  "outOfStock": "Rupture",
+  "toast": {
+    "created": "Vente {{code}} encaissée — stock mis à jour"
+  }
+}

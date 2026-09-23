@@ -1,0 +1,19 @@
+{
+  "title": "Notifications",
+  "subtitle": "Active system alerts",
+  "search": "Search…",
+  "empty": "No active notifications",
+  "emptyHint": "All quiet — alerts will appear here.",
+  "markAllRead": "Mark all as read",
+  "fields": {
+    "type": "Type",
+    "message": "Message",
+    "article": "Related article"
+  },
+  "type": {
+    "STOCK_BAS": "Low stock",
+    "RUPTURE": "Out of stock",
+    "ALERT": "Alert"
+  },
+  "seeAll": "See all notifications"
+}

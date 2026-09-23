@@ -1,0 +1,62 @@
+{
+  "title": "Supplier orders",
+  "subtitle": "Restocking from your suppliers",
+  "listTitle": "List",
+  "createTitle": "New order",
+  "createDescription": "Select a supplier and the items to order.",
+  "createSubmit": "Create order",
+  "createLinesHint": "Prices and total are calculated by the server.",
+  "addLine": "Add line",
+  "removeLine": "Remove line",
+  "selectSupplier": "Select a supplier",
+  "selectArticle": "Select an article",
+  "allStatuses": "All statuses",
+  "statusFilter": "Filter by status",
+  "detailTitle": "Order details",
+  "search": "Search an order…",
+  "actions": "Actions",
+  "backToList": "Back to orders",
+  "notFound": "Order not found",
+  "notFoundHint": "This order does not exist or has been deleted.",
+  "fields": {
+    "code": "Order no.",
+    "date": "Date",
+    "supplier": "Supplier",
+    "status": "Status",
+    "total": "Total",
+    "article": "Article",
+    "quantity": "Qty",
+    "unitPrice": "Unit price",
+    "subTotal": "Subtotal"
+  },
+  "linesCard": "Ordered items",
+  "linesCount_one": "{{count}} item",
+  "linesCount_other": "{{count}} items",
+  "status": {
+    "EN_ATTENTE": "Pending",
+    "RECUE_PARTIELLEMENT": "Partially received",
+    "RECUE": "Received",
+    "ANNULEE": "Cancelled"
+  },
+  "receive": "Receive",
+  "receiveHint": "Generates a stock entry per line.",
+  "cancel": "Cancel order",
+  "receiveTitle": "Receive this order?",
+  "receiveConfirm": "Stock will be incremented for each line. This action cannot be undone.",
+  "cancelTitle": "Cancel this order?",
+  "toast": {
+    "created": "Order created",
+    "received": "Receipt created — stock updated",
+    "cancelled": "Order cancelled",
+    "receivedPartial": "Partial reception recorded — stock updated"
+  },
+  "reception": {
+    "cta": "Partial reception",
+    "title": "Partial reception",
+    "description": "Enter the quantity actually received for each line. Only those quantities are credited to stock.",
+    "submit": "Record reception",
+    "quantityLabel": "Received",
+    "lineSummary": "Ordered {{ordered}} · already received {{received}} · outstanding {{outstanding}}",
+    "total": "{{count}} item(s) to receive"
+  }
+}

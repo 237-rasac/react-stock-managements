@@ -1,0 +1,32 @@
+{
+  "title": "Suppliers",
+  "subtitle": "The company's sourcing partners",
+  "listTitle": "List",
+  "createTitle": "New supplier",
+  "editTitle": "Edit supplier",
+  "search": "Search a supplier…",
+  "actions": "Actions",
+  "confirmDelete": "Delete this supplier?",
+  "backToList": "Back to suppliers",
+  "notFound": "Supplier not found",
+  "notFoundHint": "This supplier does not exist or has been deleted.",
+  "identityCard": "Supplier card",
+  "contactCard": "Contact",
+  "addressCard": "Address",
+  "fields": {
+    "name": "Name",
+    "addressLine1": "Address (line 1)",
+    "addressLine2": "Address (line 2)",
+    "city": "City",
+    "postalCode": "Postal code",
+    "country": "Country",
+    "email": "Email",
+    "phone": "Phone"
+  },
+  "toast": {
+    "created": "Supplier created",
+    "updated": "Supplier updated",
+    "deleted": "Supplier deleted"
+  },
+  "detailTitle": "Supplier details"
+}

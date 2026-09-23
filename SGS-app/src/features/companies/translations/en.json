@@ -1,0 +1,39 @@
+{
+  "title": "Companies",
+  "subtitle": "Client companies managed in the system",
+  "listTitle": "List",
+  "createTitle": "New company",
+  "editTitle": "Edit company",
+  "detailTitle": "Details",
+  "notFound": "Company not found",
+  "notFoundHint": "It may have been deleted.",
+  "backToList": "Back to companies",
+  "detail": {
+    "identity": "Company information",
+    "summary": "Summary",
+    "clientCompany": "Client company"
+  },
+  "search": "Search",
+  "filter": "Filter",
+  "actions": "Actions",
+  "confirmDelete": "Are you sure you want to delete this item?",
+  "fields": {
+    "name": "Name",
+    "addressLine1": "Address (line 1)",
+    "addressLine2": "Address (line 2)",
+    "city": "City",
+    "postalCode": "Postal code",
+    "country": "Country",
+    "email": "Email",
+    "phone": "Phone"
+  },
+  "toast": {
+    "created": "Company created",
+    "updated": "Company updated",
+    "deleted": "Company deleted",
+    "deleteConflict": "This company still has user accounts attached and cannot be deleted. Remove them first."
+  },
+  "adminOnly": "Administrators only",
+  "adminOnlyHint": "This section requires the ADMIN role.",
+  "addressHint": "Only the name is required — every other field is optional."
+}

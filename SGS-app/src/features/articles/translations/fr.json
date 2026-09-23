@@ -1,0 +1,43 @@
+{
+  "title": "Articles",
+  "subtitle": "Catalogue des articles suivis en stock",
+  "listTitle": "Liste",
+  "createTitle": "Nouvel article",
+  "editTitle": "Modifier l'article",
+  "detailTitle": "Détails",
+  "search": "Rechercher",
+  "filter": "Filtrer",
+  "allCategories": "Toutes les catégories",
+  "allStatuses": "Tous les statuts",
+  "statusFilter": "Filtrer par statut",
+  "actions": "Actions",
+  "confirmDelete": "Êtes-vous sûr de vouloir supprimer cet élément ?",
+  "stock": {
+    "inStock": "En stock",
+    "low": "Stock faible",
+    "out": "Rupture",
+    "statusLabel": "État"
+  },
+  "identityCard": "Fiche d'identité",
+  "stockCard": "Stock",
+  "notFound": "Article introuvable",
+  "notFoundHint": "Il a peut-être été supprimé.",
+  "backToList": "Retour à la liste",
+  "fields": {
+    "code": "Code",
+    "designation": "Désignation",
+    "unitPriceHt": "Prix unitaire HT",
+    "vatRate": "Taux de TVA",
+    "unitPriceTtc": "Prix unitaire TTC",
+    "photo": "Photo (URL)",
+    "currentStock": "Stock actuel",
+    "minStock": "Seuil minimum",
+    "category": "Catégorie"
+  },
+  "toast": {
+    "created": "Article créé",
+    "updated": "Article mis à jour",
+    "deleted": "Article supprimé"
+  },
+  "vatHint": "Taux standard au Cameroun : 19,25 %"
+}

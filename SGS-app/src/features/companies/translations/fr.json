@@ -1,0 +1,39 @@
+{
+  "title": "Entreprises",
+  "subtitle": "Entreprises clientes gérées dans le système",
+  "listTitle": "Liste",
+  "createTitle": "Nouvelle entreprise",
+  "editTitle": "Modifier l'entreprise",
+  "detailTitle": "Détails",
+  "notFound": "Entreprise introuvable",
+  "notFoundHint": "Elle a peut-être été supprimée.",
+  "backToList": "Retour aux entreprises",
+  "detail": {
+    "identity": "Informations de l'entreprise",
+    "summary": "Résumé",
+    "clientCompany": "Entreprise cliente"
+  },
+  "search": "Rechercher",
+  "filter": "Filtrer",
+  "actions": "Actions",
+  "confirmDelete": "Êtes-vous sûr de vouloir supprimer cet élément ?",
+  "fields": {
+    "name": "Nom",
+    "addressLine1": "Adresse (ligne 1)",
+    "addressLine2": "Adresse (ligne 2)",
+    "city": "Ville",
+    "postalCode": "Code postal",
+    "country": "Pays",
+    "email": "Email",
+    "phone": "Téléphone"
+  },
+  "toast": {
+    "created": "Entreprise créée",
+    "updated": "Entreprise mise à jour",
+    "deleted": "Entreprise supprimée",
+    "deleteConflict": "Impossible de supprimer cette entreprise : des comptes utilisateurs y sont encore rattachés. Supprimez-les d’abord."
+  },
+  "adminOnly": "Accès réservé aux administrateurs",
+  "adminOnlyHint": "Cette section nécessite le rôle ADMIN.",
+  "addressHint": "Seul le nom est obligatoire — les autres champs sont optionnels."
+}

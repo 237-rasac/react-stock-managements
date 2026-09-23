@@ -1,0 +1,46 @@
+{
+  "title": "Stock",
+  "subtitle": "Stock state and valuation, all articles combined",
+  "search": "Search an article…",
+  "actions": "Actions",
+  "totalValue": "Total stock value",
+  "alertsCount": "Articles in alert",
+  "adjust": "Adjustment",
+  "adjustTitle": "Stock adjustment",
+  "fields": {
+    "code": "Code",
+    "designation": "Designation",
+    "currentStock": "Current stock",
+    "minThreshold": "Min. threshold",
+    "status": "Status",
+    "date": "Date",
+    "type": "Type",
+    "quantity": "Qty",
+    "reason": "Reason",
+    "origin": "Origin",
+    "stockAfter": "Stock after",
+    "article": "Article",
+    "quantitySigned": "Quantity (+/-)",
+    "quantitySignedHint": "Signed integer: negative for an exit, positive for an entry"
+  },
+  "status": {
+    "OK": "In stock",
+    "LOW": "Low stock",
+    "OUT": "Out of stock"
+  },
+  "movementType": {
+    "ENTREE": "Entry",
+    "SORTIE": "Exit",
+    "AJUSTEMENT": "Adjustment"
+  },
+  "movementsTitle": "Stock movements",
+  "movementsSubtitle": "History of entries, exits and adjustments",
+  "filterType": "Type",
+  "filterAll": "All",
+  "alertsTitle": "Stock alerts",
+  "alertsSubtitle": "Articles at or below their minimum threshold",
+  "noAlerts": "No alerts — all stocks are above threshold",
+  "toast": {
+    "adjusted": "Adjustment saved — stock updated"
+  }
+}
